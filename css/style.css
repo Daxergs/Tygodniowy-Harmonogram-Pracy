@@ -1,8 +1,4 @@
-.grid-container {
-    display: grid;
-  }
-  
-.grid-item 
+body
 {
-    border: black 25px solid;   
+  background-color:lightblue;
 }
