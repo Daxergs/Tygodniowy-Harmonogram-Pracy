@@ -35,6 +35,8 @@
 </style>
     <h1>Tygodniowy Harmonogram pracy</h1>
     <form action="index.php" method="get">
+        <input type="text" name="login"><label for="login">Podaj login</label>
+        <input type="password" name="haslo"><label for="haslo">Podaj hasło</label>
         <input type="date" name="data">
         <input type="number" name="columns" placeholder="Szerokość kolumn">
         <input type="checkbox" name="descripts">
@@ -54,14 +56,26 @@ if(isset($_GET['choosen'])&&isset($_GET['columns']))
 $conn = mysqli_connect('localhost', 'root', '', 'harmonogram');
 $filter = $_GET["choosen"];
 $width = $_GET["columns"];
+
+if(!empty($_GET['login']))
+{
+    $login = $_GET['login'];
+    $haslo = $_GET['haslo'];
+    if($login="admin"&&$haslo=123)
+    {
+        $query = "SELECT * FROM praca WHERE opis='Administrator' ORDER BY $filter DESC ";
+    }
+}
+else {
 if(!empty($_GET['data']))
 {
     $data = $_GET['data'];
-    $query = "SELECT * FROM praca WHERE data='$data'";
+    $query = "SELECT * FROM praca WHERE data='$data' AND opis!='Administrator' ORDER BY $filter DESC";
 }
 else
 {
-    $query = "SELECT * FROM praca ORDER BY $filter DESC";
+    $query = "SELECT * FROM praca WHERE opis!='Administrator' ORDER BY $filter DESC";
+}
 }
 $columns = $_GET['columns'];
 $result = mysqli_query($conn, $query);
